@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f5f5f3">
+<title>크루레이블 — 숏폼 업로드 가이드</title>
+<style>
+@font-face { font-family: 'GMarketSans'; src: url('https://crewlabel-rec.github.io/font/GMARKETSANSTTFMEDIUM.TTF') format('truetype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'GMarketSans'; src: url('https://crewlabel-rec.github.io/font/GMARKETSANSTTFBOLD.TTF') format('truetype'); font-weight: 700; font-display: swap; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --page: #f5f5f3;
+  --card: #ffffff;
+  --line: rgba(0,0,0,0.09);
+  --text: #141414;
+  --sub: #6b6b6b;
+  --dark: #0a0a0a;
+  --mint: #a8f0d0;
+  --mint-ink: #0a5c3a;
+  --mint-soft: #e9faf2;
+  --red: #c93b3b;
+  --red-soft: #fdeeee;
+  --gray-pill: #ececea;
+}
+html, body { background: var(--page); }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  color: var(--text); font-size: 14px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+}
+.wrap { max-width: 480px; margin: 0 auto; padding: 0 12px 40px; }
+.h { font-family: 'GMarketSans', sans-serif; }
+
+/* ── 상단: 제목 + 탭 (고정) ── */
+.top { position: sticky; top: 0; z-index: 10; background: var(--page); padding: 12px 0 10px; }
+.brand { display: flex; align-items: baseline; justify-content: space-between; margin: 2px 2px 10px; }
+.brand b { font-family: 'GMarketSans', sans-serif; font-weight: 700; font-size: 17px; }
+.brand span { font-size: 12px; color: var(--sub); }
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: var(--dark); border-radius: 14px; padding: 4px; }
+.tab { font-family: 'GMarketSans', sans-serif; font-weight: 500; font-size: 14px; color: rgba(255,255,255,0.65);
+  background: transparent; border: 0; border-radius: 10px; padding: 11px 0 8px; cursor: pointer; }
+.tab.on { background: var(--mint); color: var(--mint-ink); font-weight: 700; }
+
+/* ── 요약 카드 ── */
+.summary { background: var(--dark); color: #fff; border-radius: 16px; padding: 16px 16px 14px; margin: 4px 0 12px; }
+.summary .ttl { font-family: 'GMarketSans', sans-serif; font-weight: 700; font-size: 18px; margin-bottom: 10px; }
+.summary .ttl small { font-weight: 500; font-size: 12px; color: var(--mint); margin-left: 6px; }
+.chips { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.chip { background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.14); border-radius: 10px; padding: 8px 10px; }
+.chip i { display: block; font-style: normal; font-size: 11px; color: rgba(255,255,255,0.55); }
+.chip b { display: block; font-size: 14px; font-weight: 600; color: #fff; }
+.chip b em { font-style: normal; color: var(--mint); }
+
+/* ── 섹션 제목 ── */
+.sec.first { margin-top: 4px; }
+.sec { font-family: 'GMarketSans', sans-serif; font-weight: 700; font-size: 15px; margin: 22px 4px 8px; display: flex; align-items: center; justify-content: space-between; }
+.sec .reset { font-family: inherit; font-weight: 500; font-size: 12px; color: var(--sub); background: var(--card); border: 0.5px solid var(--line); border-radius: 20px; padding: 6px 10px 4px; cursor: pointer; }
+
+/* ── 단계 카드 ── */
+.step { background: var(--card); border: 0.5px solid var(--line); border-radius: 14px; padding: 12px 12px 10px; margin-bottom: 8px; transition: opacity .15s; }
+.step.done { opacity: 0.45; }
+.step-head { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+.num { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; background: var(--dark); color: #fff; font-family: 'GMarketSans', sans-serif; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; padding-top: 2px; margin-top: 1px; }
+.step.done .num { background: var(--mint-ink); }
+.step-title { flex: 1; font-weight: 700; font-size: 15px; line-height: 1.45; }
+.step-where { display: block; font-weight: 500; font-size: 12px; color: var(--sub); margin-top: 2px; }
+.check { flex-shrink: 0; width: 24px; height: 24px; border-radius: 7px; border: 1.5px solid #c8c8c4; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.step.done .check { background: var(--mint-ink); border-color: var(--mint-ink); }
+.step.done .check::after { content: ''; width: 6px; height: 11px; border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) translate(-1px,-1px); }
+.rows { margin: 8px 0 0 34px; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 0.5px dashed var(--line); }
+.row:first-child { border-top: 0; }
+.row .nm { font-size: 13.5px; }
+.row .nm small { display: block; font-size: 11.5px; color: var(--sub); line-height: 1.4; }
+.note { margin: 6px 0 0 34px; font-size: 12.5px; color: var(--sub); }
+.note b { color: var(--text); }
+
+/* ── 배지 ── */
+.bd { flex-shrink: 0; font-size: 12px; font-weight: 700; border-radius: 20px; padding: 4px 10px; white-space: nowrap; }
+.bd.on { background: var(--mint); color: var(--mint-ink); }
+.bd.on::before { content: '● '; font-size: 9px; vertical-align: 1px; }
+.bd.off { background: var(--gray-pill); color: #7a7a76; }
+.bd.off::before { content: '○ '; font-size: 9px; vertical-align: 1px; }
+.bd.empty { background: transparent; color: #8a8a86; border: 1px dashed #b9b9b4; }
+.bd.val { background: var(--dark); color: #fff; }
+.bd.warn { background: var(--red-soft); color: var(--red); }
+
+/* ── 캡션 / 복사 ── */
+.box { background: var(--card); border: 0.5px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 8px; }
+.rules { list-style: none; }
+.rules li { position: relative; padding: 5px 0 5px 16px; font-size: 13.5px; border-top: 0.5px dashed var(--line); }
+.rules li:first-child { border-top: 0; }
+.rules li::before { content: ''; position: absolute; left: 2px; top: 13px; width: 6px; height: 6px; border-radius: 50%; background: var(--mint-ink); }
+.tpl { background: #f7f7f5; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.7; color: #3a3a3a; margin-top: 8px; white-space: pre-wrap; }
+.tpl .ph { color: var(--mint-ink); font-weight: 700; }
+.copy { display: flex; align-items: center; gap: 8px; background: var(--mint-soft); border: 1px solid rgba(10,92,58,0.18); border-radius: 12px; padding: 9px 10px 9px 12px; margin-top: 8px; }
+.copy .lbl { flex: 1; min-width: 0; }
+.copy .lbl i { display: block; font-style: normal; font-size: 11px; color: var(--mint-ink); font-weight: 700; }
+.copy .lbl span { display: block; font-size: 12.5px; color: #2c2c2c; white-space: pre-wrap; word-break: break-all; line-height: 1.5; }
+.copy button { flex-shrink: 0; font-family: 'GMarketSans', sans-serif; font-weight: 700; font-size: 12px; background: var(--dark); color: #fff; border: 0; border-radius: 9px; padding: 9px 12px 7px; cursor: pointer; }
+.copy button.ok { background: var(--mint-ink); }
+
+/* ── 주의 ── */
+.warn-box { background: var(--red-soft); border: 1px solid rgba(201,59,59,0.22); border-radius: 14px; padding: 10px 12px; }
+.warn-box li { list-style: none; position: relative; padding: 6px 0 6px 22px; font-size: 13.5px; border-top: 0.5px dashed rgba(201,59,59,0.25); }
+.warn-box li:first-child { border-top: 0; }
+.warn-box li::before { content: '!'; position: absolute; left: 0; top: 7px; width: 15px; height: 15px; border-radius: 50%; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; text-align: center; line-height: 15px; }
+.warn-box b { color: var(--red); }
+
+/* ── 비교표 ── */
+.cmp { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.cmp th, .cmp td { padding: 7px 5px; border-top: 0.5px solid var(--line); text-align: left; vertical-align: top; }
+.cmp thead th { border-top: 0; font-family: 'GMarketSans', sans-serif; font-weight: 700; font-size: 12.5px; color: var(--mint-ink); }
+.cmp tbody th { font-weight: 700; color: var(--sub); white-space: nowrap; width: 62px; }
+
+.foot { text-align: center; font-size: 11.5px; color: #9a9a96; margin-top: 26px; }
+.toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px); background: var(--dark); color: #fff; font-size: 13px; border-radius: 20px; padding: 9px 16px; opacity: 0; transition: .2s; pointer-events: none; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><b>숏폼 업로드 가이드</b><span>크루레이블 · 릴스 · 틱톡 · 스레드</span></div>
+    <nav class="tabs" id="tabs"></nav>
+  </div>
+  <main id="view"></main>
+  <p class="foot">설정이 바뀌면 이 파일 맨 아래 GUIDE 부분의 글자만 고치면 됩니다</p>
+</div>
+<div class="toast" id="toast">복사됨</div>
+
+<script>
+/* =====================================================================
+   ✏️ 수정은 여기만 — 설정값·문구·링크가 전부 이 GUIDE 안에 있습니다.
+   배지 종류: on(켬) / off(끔) / empty(비움) / val(값 표시) / warn(주의)
+   ===================================================================== */
+const GUIDE = {
+
+  common: {
+    tab: '공통',
+    title: '모든 플랫폼 공통', sub: '올리기 전에 한 번',
+    chips: [
+      ['파일', '1080×1920 · 9:16'],
+      ['코덱', 'H.264 · MP4'],
+      ['비트레이트', '10~15Mbps'],
+      ['예약 가능 기간', '인스타 4주 · 틱톡 1달 · 스레드 75일'],
+    ],
+    cautions: [
+      '인스타를 <b>예약</b>하면 스레드 동시 게시가 꺼짐 → 스레드는 <b>따로</b> 올리기',
+      '영상 파일을 폰으로 옮길 때 <b>카카오톡 사용 금지</b> (화질 압축) → 구글 드라이브·USB',
+    ],
+    steps: [
+      { t: '영상 내보내기 설정', w: '편집 프로그램 → 내보내기', rows: [
+        ['해상도', '1080×1920', 'val', '더 높여도 화질 이득 없음 (플랫폼이 최대 1080으로 재생)'],
+        ['코덱 / 형식', 'H.264 · MP4', 'val', ''],
+        ['비트레이트', '10~15Mbps', 'val', '60프레임이면 최대 25Mbps'],
+        ['프레임', '원본 유지', 'val', '24·25프레임은 틱톡에서 재변환되니 가능하면 30·60'],
+      ]},
+      { t: '편집 안전 영역 확인', w: '1440×2560 작업 기준 · (괄호) 1080 기준 · 가장 빠듯한 틱톡 추천 화면으로 측정', rows: [
+        ['글자 윗선 (제목 등)', '위에서 333 이상', 'val', '(250) 틱톡 상단 메뉴(팔로잉·추천 탭)와 안 겹치게'],
+        ['글자 오른쪽 끝', 'x 1187 이내', 'val', '(890) 화면 폭 82% · 오른쪽 아이콘과 40px 이상'],
+        ['글자 왼쪽 끝', 'x 80 이상', 'val', '(60) 틱톡 피드는 좌우를 약 55px(1080 기준)씩 자름'],
+        ['하단 왼쪽', '글자 두지 않기', 'warn', '계정 이름·캡션이 올라오는 자리'],
+        ['프로필 유도 화살표 (쓸 경우)', '왼쪽 아래 방향', 'val', '계정 이름 쪽을 가리키게'],
+      ]},
+    ],
+    compare: {
+      head: ['', '인스타', '틱톡', '스레드'],
+      rows: [
+        ['올리는 곳', '앱', '스튜디오 웹', '웹 · 앱'],
+        ['예약 기간', '약 4주', '약 1달', '75일'],
+        ['태그', '해시태그 5개', '해시태그 5개', '주제 1개'],
+        ['캡션 링크', '안 눌림', '안 눌림', '바로 눌림'],
+        ['말투', '존댓말', '존댓말', '반말'],
+        ['게시 후 수정', '캡션 언제든', '어려움', '15분·글만'],
+        ['다운로드', '허용', '허용', '기능 없음'],
+        ['재사용', '템플릿 막음', '듀엣 등 허용', '인용 허용'],
+      ],
+    },
+  },
+
+  insta: {
+    tab: '인스타',
+    title: '인스타그램 릴스', sub: '앱에서 업로드',
+    chips: [
+      ['올리는 곳', '<em>앱</em> (웹은 예약 없음)'],
+      ['예약 기간', '약 4주 (28일)'],
+      ['해시태그', '5개'],
+      ['캡션 링크', '안 눌림 → 프로필'],
+    ],
+    cautions: [
+      '<b>웹(PC)</b>은 예약 메뉴 없음 + 기본 비율이 정사각형 → 앱으로 올리기',
+      '예약하면 <b>스레드 동시 게시 불가</b> → 스레드는 따로',
+      '게시 후 캡션은 ⋯ → 수정 가능, <b>영상은 교체 불가</b> (삭제 후 재업로드)',
+    ],
+    steps: [
+      { t: '처음 한 번만: 화질 설정', w: '설정 → 데이터 사용 및 미디어 품질', rows: [
+        ['최고 품질로 업로드', '켬', 'on', ''],
+      ]},
+      { t: '영상 선택', w: '하단 ＋ → 릴스 → 영상 고르기', rows: [
+        ['비율', '원본 9:16', 'val', '잘려 있으면 자르기 → 원본'],
+        ['음악·효과·텍스트', '추가 안 함', 'empty', '완성본 영상이면 손대지 않기'],
+      ]},
+      { t: '캡션 붙여넣기', w: '캡션 추가 칸', rows: [
+        ['첫 줄', '30자 이내', 'val', '접힌 상태에선 첫 줄바꿈 전까지만 보임'],
+        ['해시태그', '5개', 'val', '6개 이상 쓰지 않기'],
+      ]},
+      { t: '공유 화면 항목', w: '캡션 아래 목록', rows: [
+        ['위치 추가', '비움', 'empty', ''],
+        ['공동 작업자 추가', '비움', 'empty', ''],
+        ['AI 레이블 추가', '끔', 'off', 'AI로 만든 영상이 아니면 끔'],
+      ]},
+      { t: '옵션 더 보기', w: '공유 화면 아래 → 옵션 더 보기', rows: [
+        ['이 릴스 예약', '켬 → 날짜·시간', 'on', ''],
+        ['고화질로 업로드', '켬', 'on', ''],
+        ['템플릿으로 사용하도록 허용 안 함', '켬', 'on', '켜야 막힘 (얻을 게 없음)'],
+        ['좋아요 수 숨기기', '끔', 'off', ''],
+        ['공유 횟수 숨기기', '끔', 'off', ''],
+        ['다운로드 허용', '켬', 'on', '저장본에 @crewlabel.rec 표시 → 공유로 퍼짐'],
+        ['선택 캡션 활성화', '끔', 'off', '영상에 자막이 있으면 겹침'],
+        ['선택 캡션 번역', '끔', 'off', ''],
+      ]},
+      { t: '공유 → 예약 확인', w: '프로필 → ☰ → 예약된 콘텐츠  (없으면 ＋ → ☰)', rows: [
+        ['날짜·시간', '확인', 'val', '예약 화면 미리보기는 실제 릴스 화면과 다르게 보임'],
+      ]},
+    ],
+    caption: {
+      rules: [
+        '첫 줄: 핵심 문장 <b>30자 이내</b> (유튜브 제목이 있으면 해시태그 빼고 활용)',
+        '둘째 줄: <b>👆 + 볼 것 + "은 프로필 링크에서"</b> (캡션 속 링크는 안 눌림)',
+        '해시태그 5개 = #크루레이블 + 대상 2개 + 형식·주제 2개',
+      ],
+      tpl: '<span class="ph">[첫 줄 · 30자 이내]</span>\n\n👆 <span class="ph">[볼 것]</span>은 프로필 링크에서\n\n<span class="ph">#크루레이블 #대상 #대상 #형식 #주제</span>',
+      copies: [],
+    },
+  },
+
+  tiktok: {
+    tab: '틱톡',
+    title: '틱톡', sub: '틱톡 스튜디오 웹(PC)에서 업로드',
+    chips: [
+      ['올리는 곳', '<em>스튜디오 웹</em>'],
+      ['예약 기간', '약 1달'],
+      ['해시태그', '5개 (인스타와 같은 캡션)'],
+      ['캡션 링크', '안 눌림 → 프로필'],
+    ],
+    cautions: [
+      '<b>게시물 프로모션</b> = 유료 광고 → 누르지 않기',
+      '예약 후에는 캡션·시간 수정이 어려움 → <b>예약 누르기 전에</b> 설명·날짜 다시 확인',
+      '웹 설정 페이지에는 다운로드·듀엣 항목 없음 → <b>앱</b>에서 확인',
+    ],
+    steps: [
+      { t: '계정 설정 (새 기기·처음 한 번만)', w: '앱 → 프로필 → ☰ → 설정 및 개인 정보', rows: [
+        ['비공개 계정', '끔', 'off', '켜져 있으면 아무도 못 봄'],
+        ['댓글', '모두', 'val', ''],
+        ['다운로드', '켬', 'on', ''],
+        ['콘텐츠 재사용 허용 대상', '모두', 'val', '듀엣·이어붙이기·스티커'],
+      ]},
+      { t: '영상 업로드', w: '틱톡 스튜디오 → 업로드 → 파일 선택', rows: [
+        ['고화질 업로드', '항상 켜짐', 'on', '웹은 잠겨 있음 · 손댈 것 없음'],
+      ]},
+      { t: '설명 칸', w: '업로드 화면 맨 위', rows: [
+        ['자동 입력된 파일 이름', '지우기', 'warn', '그대로 두면 파일명이 캡션이 됨'],
+        ['캡션', '붙여넣기', 'val', '인스타와 같은 캡션'],
+      ]},
+      { t: '공개 설정', w: '설명 아래 항목', rows: [
+        ['위치', '비움', 'empty', '한국은 효과 미확인 · 스튜디오 근처 노출 방지'],
+        ['볼 수 있는 사람', '모두', 'val', ''],
+        ['사용자 허용 (보이면)', '댓글·듀엣·이어붙이기 체크', 'on', ''],
+      ]},
+      { t: '예약', w: '게시 시기 → 예약', rows: [
+        ['날짜·시간', '켬 → 선택', 'on', ''],
+      ]},
+      { t: '예약 확인', w: '스튜디오 → 게시물 목록', rows: [
+        ['상태', '예약됨', 'val', ''],
+      ]},
+    ],
+    caption: {
+      rules: [
+        '<b>인스타 캡션과 똑같이</b> 붙여넣기 (첫 줄 30자 · 프로필 안내 줄 · 해시태그 5개)',
+      ],
+      tpl: '<span class="ph">[첫 줄 · 30자 이내]</span>\n\n👆 <span class="ph">[볼 것]</span>은 프로필 링크에서\n\n<span class="ph">#크루레이블 #대상 #대상 #형식 #주제</span>',
+      copies: [],
+    },
+  },
+
+  threads: {
+    tab: '스레드',
+    title: '스레드', sub: '웹에서 업로드 (앱도 가능)',
+    chips: [
+      ['예약 기간', '<em>75일</em>'],
+      ['태그', '주제 1개'],
+      ['본문 링크', '<em>바로 눌림</em>'],
+      ['말투', '<em>반말</em>'],
+    ],
+    cautions: [
+      '달력이 <b>월요일부터 시작</b> → 요일 칸 위치 말고 <b>날짜 숫자</b>를 보고 고르기',
+      '오른쪽 아래 버튼이 <b>"게시"</b>로 보이면 누르는 즉시 올라감 → <b>"예약"</b>인지 확인',
+      '<b>게시 전(예약 상태)</b>에는 본문·주제·날짜를 <b>전부 고칠 수 있음</b> → 임시 저장본에서',
+      '<b>게시 후</b>에는 <b>15분 안에 글만</b> 고칠 수 있음 · 영상은 교체 불가',
+      '링크 <b>미리보기 카드</b>가 생기면 X로 지우기 (영상이 메인)',
+      '영상은 항상 <b>글 아래</b>에 붙음 (순서 변경 불가)',
+    ],
+    steps: [
+      { t: '새 글 열기', w: '왼쪽 아래 ＋ 새로운 스레드', rows: [] },
+      { t: '주제 칸 (이름 옆 굵은 글씨)', w: '"커뮤니티 또는 주제" — 제목 칸 아님', rows: [
+        ['주제어', '1개만', 'val', '대상 직군 또는 공통어 (예: 직장인 · 오디션 · 방송인)'],
+      ]},
+      { t: '본문 (아래 얇은 글씨)', w: '질문 → 답 → 링크 순서', rows: [
+        ['말투', '반말', 'val', '답글도 반말로'],
+        ['링크', '바로 눌림', 'on', '보통 영상 링크 + 크루 합류 링크'],
+      ]},
+      { t: '영상 첨부', w: '본문 아래 첫 번째 아이콘 (미디어)', rows: [
+        ['위치 · 음악 · 스티커', '쓰지 않음', 'empty', ''],
+        ['스레드에 추가', '쓰지 않음', 'empty', '이어지는 글은 피드에서 접혀 보임'],
+      ]},
+      { t: '게시물 옵션', w: '창 왼쪽 아래 → 게시물 옵션', rows: [
+        ['답글을 달고 인용할 수 있는 사람', '모든 사람', 'val', ''],
+        ['답글 검토 및 승인', '끔', 'off', ''],
+        ['함께 공유할 위치', '해제', 'off', ''],
+      ]},
+      { t: '예약', w: '창 오른쪽 위 ⋯ → 예약…', rows: [
+        ['AI 레이블 추가', '안 함', 'off', ''],
+        ['날짜', '숫자 보고 선택', 'warn', '달력이 월요일부터 시작'],
+        ['시간', '24시간 표기', 'warn', '예: 오후 3시 = 15:00'],
+      ]},
+      { t: '버튼 확인 후 누르기', w: '오른쪽 아래 버튼', rows: [
+        ['버튼 글자', '"예약"', 'on', '"게시"로 보이면 바로 올라감'],
+      ]},
+      { t: '예약 확인', w: '글쓰기 창 오른쪽 위 문서 아이콘 → 임시 저장본', rows: [
+        ['본문·주제 수정', '본문 누르기', 'val', ''],
+        ['시간 변경 / 삭제', '⋯ → 일정 수정 · 삭제', 'val', ''],
+      ]},
+    ],
+    caption: {
+      rules: [
+        '<b>질문으로 시작</b> → 답(영상 제목을 반말로) → 링크',
+        '<b>가르치지 않기</b> — 결론 내려 주는 "~거야, ~잖아" 피하기',
+        '<b>미리 말하지 않기</b> — 영상 속 설명은 영상에 남기기',
+        '방송인 대상 글은 답 아래에 <b>대상 줄</b> 넣기',
+      ],
+      tpl: '<span class="ph">[질문 한 줄 · 반말]</span>\n\n<span class="ph">[답 한 줄 · 영상 제목 변형]</span>\n<span class="ph">(방송인 대상이면) 대상 줄</span>\n\n▶ <span class="ph">[링크 이름]</span>: 링크\n▶ 크루 합류 방법: 링크',
+      copies: [
+        ['일반인 크루 합류 링크 (스레드 전용)', 'https://crewlabel-rec.github.io/threads-people/'],
+        ['방송인 크루 합류 링크 (스레드 전용)', 'https://crewlabel-rec.github.io/threads-broadcaster/'],
+        ['일반인 키콘텐츠', 'https://youtu.be/xqZqJNcSQBA'],
+        ['방송인 키콘텐츠', 'https://youtu.be/tmsjUKxpjPg'],
+        ['방송인 대상 줄', '연기자·아나운서·개그맨·성우 모두를 위한 이야기'],
+      ],
+    },
+  },
+};
+/* ===================== ✏️ 수정 영역 끝 ===================== */
+
+const ORDER = ['common', 'insta', 'tiktok', 'threads'];
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function render(key) {
+  const g = GUIDE[key];
+  const done = store.get('done_' + key, []);
+  let h = '';
+  h += `<section class="summary"><div class="ttl">${g.title}<small>${g.sub}</small></div><div class="chips">` +
+       g.chips.map(c => `<div class="chip"><i>${c[0]}</i><b>${c[1]}</b></div>`).join('') + `</div></section>`;
+
+  h += `<div class="sec first"><span>⚠ 먼저 확인</span></div><ul class="warn-box">` + g.cautions.map(c => `<li>${c}</li>`).join('') + `</ul>`;
+  h += `<div class="sec"><span>업로드 순서</span><button class="reset" data-reset="${key}">체크 초기화</button></div>`;
+  g.steps.forEach((s, i) => {
+    const isDone = done.includes(i);
+    h += `<div class="step${isDone ? ' done' : ''}" data-step="${i}">
+      <div class="step-head"><span class="num">${i + 1}</span>
+        <div class="step-title">${s.t}<span class="step-where">${s.w}</span></div><span class="check"></span></div>`;
+    if (s.rows.length) {
+      h += `<div class="rows">` + s.rows.map(r =>
+        `<div class="row"><div class="nm">${r[0]}${r[3] ? `<small>${r[3]}</small>` : ''}</div><span class="bd ${r[2]}">${r[1]}</span></div>`).join('') + `</div>`;
+    }
+    h += `</div>`;
+  });
+
+  if (g.compare) {
+    h += `<div class="sec"><span>플랫폼 비교</span></div><div class="box"><table class="cmp"><thead><tr>` +
+         g.compare.head.map(x => `<th>${x}</th>`).join('') + `</tr></thead><tbody>` +
+         g.compare.rows.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('') +
+         `</tbody></table></div>`;
+  }
+
+  if (g.caption) {
+    h += `<div class="sec"><span>캡션 형식</span></div><div class="box"><ul class="rules">` +
+         g.caption.rules.map(r => `<li>${r}</li>`).join('') + `</ul><div class="tpl">${g.caption.tpl}</div>` +
+         g.caption.copies.map((c, j) => `<div class="copy"><div class="lbl"><i>${c[0]}</i><span>${esc(c[1])}</span></div>
+           <button data-copy="${key}|${j}">복사</button></div>`).join('') + `</div>`;
+  }
+
+  document.getElementById('view').innerHTML = h;
+}
+
+function setTab(key) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.key === key));
+  render(key); store.set('tab', key); window.scrollTo(0, 0);
+}
+
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1300); }
+
+function copyText(text, btn) {
+  const done = () => { toast('복사됨'); btn.textContent = '완료'; btn.classList.add('ok'); setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('ok'); }, 1300); };
+  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(done, () => fallback()); } else fallback();
+  function fallback() { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) { toast('복사 실패 — 길게 눌러 직접 복사'); } ta.remove(); }
+}
+
+document.getElementById('tabs').innerHTML = ORDER.map(k => `<button class="tab" data-key="${k}">${GUIDE[k].tab}</button>`).join('');
+document.addEventListener('click', e => {
+  const tab = e.target.closest('.tab'); if (tab) return setTab(tab.dataset.key);
+  const cp = e.target.closest('[data-copy]'); if (cp) { const [k, j] = cp.dataset.copy.split('|'); return copyText(GUIDE[k].caption.copies[+j][1], cp); }
+  const rs = e.target.closest('[data-reset]'); if (rs) { store.set('done_' + rs.dataset.reset, []); render(rs.dataset.reset); return toast('체크 초기화'); }
+  const head = e.target.closest('.step-head'); if (head) {
+    const key = store.get('tab', 'common'); const i = +head.parentElement.dataset.step;
+    let d = store.get('done_' + key, []); d = d.includes(i) ? d.filter(x => x !== i) : d.concat(i);
+    store.set('done_' + key, d); head.parentElement.classList.toggle('done');
+  }
+});
+setTab(ORDER.includes(store.get('tab', 'common')) ? store.get('tab', 'common') : 'common');
+</script>
+</body>
+</html>
